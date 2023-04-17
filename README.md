@@ -7,7 +7,7 @@ BICE_M_100k: BICE for subgraph matching, which finds up to 100,000 embeddings.
 
 ## Compile
 
-Executable files are compiled on CentOS-7.
+The executable files were compiled on CentOS-7 using g++ (GCC) 11.2.1 20220127 (Red Hat 11.2.1-9).
 
 ## Usages
 ```zsh
@@ -66,3 +66,6 @@ e 2 3 0
 ```
 
 As an example, the main.py is given in the query_graphs_generator_subgraphmatching directory.
+
+## Contact
+yunyoungchoi96@gmail.com
