@@ -1,0 +1,48 @@
+<Compilation>
+
+1. default (4 bits light weight NLF) 
+g++ -pthread -w -std=c++11 -O3 -DNDEBUG -I /home/hjkim/include -L /home/hjkim/lib DAF.cpp -o daf -lsdsl -ldivsufsort -ldivsufsort64
+
+-DYY: Cardinality of union of adjaceny lists in CS without using materialized adjacency lists
+
+<Execution>
+./daf -d [data graph file] -q [query graph file] -o [answer file] 
+
+-c: candidate-size order (no -c: path-size order)
+-f: without failing sets (no -f: failing set)
+
+<Global variables>
+* int nUniqueLabel: the number of distinct labels
+* int nGraph: the number of data graphs
+
+<Common member variables in class Graph>
+* int nVertex: the number of vertices in a graph
+* int nEdge: the number of edges in a graph
+* int nLabel: the number of labels in a graph
+* int degree[]: degree[u] is the degree of u
+* int label[]: label[u] is the label ID of  u
+* int core[]: core[u] is the core number of u
+* int maxNbrDegree[]: maxNbrDegree[u] is the maximum neithbor degree of u
+* unordered_map<int, int> labelFrequency: labelFrequency[l] is the frequency of the label 'l' in a graph
+* int nbrOffset[]: nbrOffset[u] is the start position of vertex u's adjaceny list in nbr
+* int nbr[]: the adjacency lists of all vertices 
+e.g., nbr[nbrOffset[u] ... nbrOffset[u+1]-1]: u's neighbors
+* unordered_map<pair<int, int>, pair<int, int>, pairHash> labelToNbrOffset[]: labelToNbrOffset[make_pair(v, l)] is the start position and the size of a data vertex v's adjaceny list with the vertex label 'l'
+e.g., nbr[pos ... (pos + size - 1)]: v's neighbors with the label label l
+where pos = labelToNbrOffset[make_pair(v, l)].first
+and size = labelToNbrOffset[make_pair(v, l)].second
+
+<Member variables only used in query graph>
+* int nNonLeaf: the number of non-leaf vertices
+* int NECMap[]: vertices that represent NEC containing u if u is a leaf (i.e., a vertex with degree = 1 that does not have a child). 
+e.g., NECMap[u] = u' (representative node of NEC that contains u) if u is a leaf, NECMap[u] = -1 otherwise
+
+<Member variables only used in data graph>
+* int mostFrequentLabelID: the ID of the most frequent label in a graph 
+* int maxNumSameLabelVertex: the number of vertices with the most frequent label in a graph
+* int vertexOffset[]: the start position of the vertices in data graphs for given label in vertex[]
+* int vertex[]: the list of all vertices in data graphs sorted by their labels and degrees
+e.g., vertex[start ...  (end-1)] is the vertices with the label 'l' sorted in the ascending order of degree
+where s = vertexOffset[label], end = vertexOffset[label+1]
+
+
